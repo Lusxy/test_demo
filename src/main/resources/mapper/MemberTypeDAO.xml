@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gx.test_demo.mapper.MemberTypeMapper">
+  <resultMap id="BaseResultMap" type="com.gx.test_demo.entity.MemberType">
+    <id column="member_type_id" jdbcType="INTEGER" property="memberTypeId" />
+    <result column="member_type" jdbcType="VARCHAR" property="memberType" />
+    <result column="discount" jdbcType="DECIMAL" property="discount" />
+    <result column="explains" jdbcType="VARCHAR" property="explains" />
+    <result column="is_valid" jdbcType="BIT" property="isValid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    member_type_id, member_type, discount, explains, is_valid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member_type
+    where member_type_id = #{memberTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member_type
+    where member_type_id = #{memberTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gx.test_demo.entity.MemberType">
+    insert into member_type (member_type_id, member_type, discount, 
+      explains, is_valid)
+    values (#{memberTypeId,jdbcType=INTEGER}, #{memberType,jdbcType=VARCHAR}, #{discount,jdbcType=DECIMAL}, 
+      #{explains,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gx.test_demo.entity.MemberType">
+    insert into member_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="memberTypeId != null">
+        member_type_id,
+      </if>
+      <if test="memberType != null">
+        member_type,
+      </if>
+      <if test="discount != null">
+        discount,
+      </if>
+      <if test="explains != null">
+        explains,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="memberTypeId != null">
+        #{memberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="memberType != null">
+        #{memberType,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null">
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="explains != null">
+        #{explains,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gx.test_demo.entity.MemberType">
+    update member_type
+    <set>
+      <if test="memberType != null">
+        member_type = #{memberType,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null">
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="explains != null">
+        explains = #{explains,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=BIT},
+      </if>
+    </set>
+    where member_type_id = #{memberTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gx.test_demo.entity.MemberType">
+    update member_type
+    set member_type = #{memberType,jdbcType=VARCHAR},
+      discount = #{discount,jdbcType=DECIMAL},
+      explains = #{explains,jdbcType=VARCHAR},
+      is_valid = #{isValid,jdbcType=BIT}
+    where member_type_id = #{memberTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>

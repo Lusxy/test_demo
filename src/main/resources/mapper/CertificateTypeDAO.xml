@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gx.test_demo.mapper.CertificateTypeMapper">
+  <resultMap id="BaseResultMap" type="com.gx.test_demo.entity.CertificateType">
+    <id column="certificate_type_id" jdbcType="INTEGER" property="certificateTypeId" />
+    <result column="certificate_type" jdbcType="VARCHAR" property="certificateType" />
+    <result column="is_valid" jdbcType="BIT" property="isValid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    certificate_type_id, certificate_type, is_valid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from certificate_type
+    where certificate_type_id = #{certificateTypeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from certificate_type
+    where certificate_type_id = #{certificateTypeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gx.test_demo.entity.CertificateType">
+    insert into certificate_type (certificate_type_id, certificate_type, 
+      is_valid)
+    values (#{certificateTypeId,jdbcType=INTEGER}, #{certificateType,jdbcType=VARCHAR}, 
+      #{isValid,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gx.test_demo.entity.CertificateType">
+    insert into certificate_type
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="certificateTypeId != null">
+        certificate_type_id,
+      </if>
+      <if test="certificateType != null">
+        certificate_type,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="certificateTypeId != null">
+        #{certificateTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="certificateType != null">
+        #{certificateType,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gx.test_demo.entity.CertificateType">
+    update certificate_type
+    <set>
+      <if test="certificateType != null">
+        certificate_type = #{certificateType,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=BIT},
+      </if>
+    </set>
+    where certificate_type_id = #{certificateTypeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gx.test_demo.entity.CertificateType">
+    update certificate_type
+    set certificate_type = #{certificateType,jdbcType=VARCHAR},
+      is_valid = #{isValid,jdbcType=BIT}
+    where certificate_type_id = #{certificateTypeId,jdbcType=INTEGER}
+  </update>
+</mapper>

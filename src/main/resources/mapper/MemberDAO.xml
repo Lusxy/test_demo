@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.gx.test_demo.mapper.MemberMapper">
+  <resultMap id="BaseResultMap" type="com.gx.test_demo.vo.SysMemberVo">
+    <id column="member_id" jdbcType="INTEGER" property="memberId" />
+    <result column="member_name" jdbcType="VARCHAR" property="memberName" />
+    <result column="member_type_id" jdbcType="INTEGER" property="memberTypeId" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="register_time" jdbcType="TIMESTAMP" property="registerTime" />
+    <result column="certificate_type_id" jdbcType="INTEGER" property="certificateTypeId" />
+    <result column="certificate_number" jdbcType="VARCHAR" property="certificateNumber" />
+    <result column="sex" jdbcType="BIT" property="sex" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="is_valid" jdbcType="BIT" property="isValid" />
+<!--   //拓展   -->
+    <result column="member_type" jdbcType="VARCHAR" property="memberTypeName" />
+    <result column="certificate_type" jdbcType="VARCHAR" property="certificateTypeName" />
+  </resultMap>
+
+  <select id="selectVoData"  resultMap="BaseResultMap">
+    SELECT member.*,certificate_type.certificate_type,member_type.member_type
+    FROM member INNER JOIN certificate_type ON certificate_type.certificate_type_id=member.certificate_type_id
+                INNER JOIN member_type ON member.member_type_id=member_type.member_type_id
+  </select>
+
+  <update id="updateData"  parameterType="com.gx.test_demo.entity.Member">
+    update member
+    <set>
+      <if test="memberName != null">
+        member_name = #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberTypeId != null">
+        member_type_id = #{memberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="certificateTypeId != null">
+        certificate_type_id = #{certificateTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="certificateNumber != null">
+        certificate_number = #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=BIT},
+      </if>
+    </set>
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectData"  resultMap="BaseResultMap">
+    SELECT member.*,certificate_type.certificate_type,member_type.member_type
+    FROM member INNER JOIN certificate_type ON certificate_type.certificate_type_id=member.certificate_type_id
+                INNER JOIN member_type ON member.member_type_id=member_type.member_type_id
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </select>
+
+  <sql id="Base_Column_List">
+    member_id, member_name, member_type_id, phone, `password`, register_time, certificate_type_id, 
+    certificate_number, sex, photo, email, is_valid
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from member
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.gx.test_demo.entity.Member">
+    insert into member (member_id, member_name, member_type_id, 
+      phone, `password`, register_time, 
+      certificate_type_id, certificate_number, sex, 
+      photo, email, is_valid)
+    values (#{memberId,jdbcType=INTEGER}, #{memberName,jdbcType=VARCHAR}, #{memberTypeId,jdbcType=INTEGER}, 
+      #{phone,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{registerTime,jdbcType=TIMESTAMP}, 
+      #{certificateTypeId,jdbcType=INTEGER}, #{certificateNumber,jdbcType=VARCHAR}, #{sex,jdbcType=BIT}, 
+      #{photo,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{isValid,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gx.test_demo.entity.Member">
+    insert into member
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        member_id,
+      </if>
+      <if test="memberName != null">
+        member_name,
+      </if>
+      <if test="memberTypeId != null">
+        member_type_id,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="password != null">
+        `password`,
+      </if>
+      <if test="registerTime != null">
+        register_time,
+      </if>
+      <if test="certificateTypeId != null">
+        certificate_type_id,
+      </if>
+      <if test="certificateNumber != null">
+        certificate_number,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="photo != null">
+        photo,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="isValid != null">
+        is_valid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="memberId != null">
+        #{memberId,jdbcType=INTEGER},
+      </if>
+      <if test="memberName != null">
+        #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberTypeId != null">
+        #{memberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="certificateTypeId != null">
+        #{certificateTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="certificateNumber != null">
+        #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=BIT},
+      </if>
+      <if test="photo != null">
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        #{isValid,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gx.test_demo.entity.Member">
+    update member
+    <set>
+      <if test="memberName != null">
+        member_name = #{memberName,jdbcType=VARCHAR},
+      </if>
+      <if test="memberTypeId != null">
+        member_type_id = #{memberTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        `password` = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="registerTime != null">
+        register_time = #{registerTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="certificateTypeId != null">
+        certificate_type_id = #{certificateTypeId,jdbcType=INTEGER},
+      </if>
+      <if test="certificateNumber != null">
+        certificate_number = #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=BIT},
+      </if>
+      <if test="photo != null">
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isValid != null">
+        is_valid = #{isValid,jdbcType=BIT},
+      </if>
+    </set>
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gx.test_demo.entity.Member">
+    update member
+    set member_name = #{memberName,jdbcType=VARCHAR},
+      member_type_id = #{memberTypeId,jdbcType=INTEGER},
+      phone = #{phone,jdbcType=VARCHAR},
+      `password` = #{password,jdbcType=VARCHAR},
+      register_time = #{registerTime,jdbcType=TIMESTAMP},
+      certificate_type_id = #{certificateTypeId,jdbcType=INTEGER},
+      certificate_number = #{certificateNumber,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=BIT},
+      photo = #{photo,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      is_valid = #{isValid,jdbcType=BIT}
+    where member_id = #{memberId,jdbcType=INTEGER}
+  </update>
+</mapper>

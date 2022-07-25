@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>用户数据维护</title>
+  <style>
+    td,th{
+      border: solid gray 1px;
+      text-align: center;
+    }
+    img{
+      width: 50px;
+      height: 50px;
+    }
+  </style>
+</head>
+<body>
+<table>
+  <thead>
+  <th>序号</th>
+  <th>会员姓名</th>
+  <th>会员类型</th>
+  <th>手机号</th>
+  <th>注册时间</th>
+  <th>证件类型</th>
+  <th>证件号</th>
+  <th>性别</th>
+  <th>邮箱</th>
+  <th>是否有效</th>
+  <th>图片</th>
+  <th>操作</th>
+  </thead>
+  <tbody>
+  <tr th:each="member,userStat:${memberVo}"><!---->
+    <td th:text="${userStat.index+1}"></td><!--序号-->
+    <td th:text="${member.memberName}"></td><!--会员姓名-->
+    <td th:text="${member.getCertificateTypeName()}"></td><!--会员类型-->
+    <td th:text="${member.phone}"></td><!--手机号-->
+    <td th:text="${member.registerTime}"></td><!--注册时间-->
+    <td th:text="${member.getCertificateTypeName()}"></td><!--证件类型-->
+    <td th:text="${member.certificateNumber}"></td><!--证件号-->
+    <td>
+      <span th:if="${member.sex == 0}">(女)</span>
+      <span th:unless="${member.sex != 0}">(男)</span>
+    </td>
+    <td th:text="${member.email}"></td><!--邮箱-->
+    <td th:text="${member.isValid}"></td><!--是否有效-->
+    <td><img th:src="${'/member/getPortraitImage/'+member.photo}"></td><!--头像-->
+
+    <td><a th:href="@{/member/update(id=${member.memberId})}">修改</a>|
+      <a th:href="@{/member/delete(id=${member.memberId})}">删除</a></td><!--操作-->
+  </tr>
+  </tbody>
+</table>
+<a th:href="@{/member/insert}">新增用户</a>
+</body>
+</html>
